@@ -8,13 +8,6 @@ import { Note } from 'src/app/services/@types/note';
 })
 export class NoteComponent implements OnInit {
 
-  // note = {
-  //   id: 1,
-  //   date: new Date(),
-  //   text: "Um texto qualquer",
-  //   urgert: false
-  // }
-
   @Input()
   noteProp = {} as Note;
 
@@ -22,7 +15,10 @@ export class NoteComponent implements OnInit {
   titleProp: any;
 
   @Output()
-  notify = new EventEmitter();
+  notifyRemove = new EventEmitter();
+
+  @Output()
+  notifyEdit = new EventEmitter();
 
   constructor() { }
 
@@ -30,8 +26,12 @@ export class NoteComponent implements OnInit {
   }
 
   confirmRemove(){
-    if(confirm("Deseja realmente apagar?"))
-      this.notify.emit();
+    if(confirm("Deseja realmente apagar?")) {
+      this.notifyRemove.emit();
+    }
   }
 
+  editNote() {
+    this.notifyEdit.emit();
+  }
 }

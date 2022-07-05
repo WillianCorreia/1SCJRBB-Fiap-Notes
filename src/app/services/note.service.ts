@@ -13,6 +13,9 @@ export class NoteService {
   private newNoteSource = new Subject<Note>();
   newNoteProvider = this.newNoteSource.asObservable();
 
+  private editNoteSource = new Subject<Note>();
+  editNoteProvider = this.editNoteSource.asObservable();
+
   constructor(private http: HttpClient) {
     this.apiUrl = "https://fiap-notes-api.herokuapp.com";
   }
@@ -43,13 +46,20 @@ export class NoteService {
     },
   ];
 
-  notifyNewNoteAdded(note: Note){
+  notifyNewNote(note: Note){
     this.newNoteSource.next(note);
-    // this.newNoteSource.error("algum exception");
+  }
+
+  notifyEditNote(note: Note) {
+    this.editNoteSource.next(note);
   }
 
   getNotes(){
     return this.http.get<Note[]>(`${this.apiUrl}/notes`);
+  }
+
+  editNote(note: Note) {
+    return this.http.put<Note>(`${this.apiUrl}/notes/${note.id}`, {text: note.text});
   }
 
   removeNote(noteId: number){

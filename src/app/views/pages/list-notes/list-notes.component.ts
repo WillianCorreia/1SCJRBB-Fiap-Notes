@@ -25,7 +25,6 @@ export class ListNotesComponent implements OnInit {
     });
   }
 
-  //método do cliclo de vida do componente
   ngOnInit(): void {
     this.getApiNotes();
   }
@@ -42,5 +41,9 @@ export class ListNotesComponent implements OnInit {
     this.noteService.removeNote(noteId).subscribe(
       () => this.notes = this.notes.filter(note => note.id !== noteId)
     );
+  }
+
+  editNote(noteToEdit: Note) {
+    this.noteService.notifyEditNote(noteToEdit);
   }
 }
